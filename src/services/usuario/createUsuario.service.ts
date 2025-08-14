@@ -12,12 +12,23 @@ export const createUserService=async(userData:CreateUser):Promise<returnUser>=>{
     
     const findUser: Usuario | null = await userRepository.findOne({
         where:{
-            nome:userData.nome
+            email:userData.email
+        },
+        
+    })
+
+        const findUser2: Usuario | null = await userRepository.findOne({
+        where:{
+            telefone:userData.telefone
         },
         
     })
     if(findUser){
         throw new AppError("usuario já existe",409)
+    }
+
+    if (findUser2){
+        throw new AppError("Numero de telefone já está cadastrado",409)
     }
     const salt =  bcrypt.genSaltSync(10);
     const hash =  bcrypt.hashSync(userData.password, salt);

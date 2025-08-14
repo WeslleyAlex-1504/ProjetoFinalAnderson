@@ -1,3 +1,4 @@
+import { DeepPartial } from "typeorm";
 import z from "zod";
 
 
@@ -18,4 +19,4 @@ export const updateUserSchema = createUserSchema.partial()
 
 export type CreateUser = z.infer<typeof createUserSchema>
 export type returnUser = z.infer<typeof returnUserSchema>
-export type updateUser = z.infer<typeof updateUserSchema>
+export type iUpdateUser = DeepPartial<typeof createUserSchema>
