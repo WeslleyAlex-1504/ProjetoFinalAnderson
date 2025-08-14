@@ -2,11 +2,18 @@ import { Request, Response } from "express";
 import { returnUser } from "../schemas/usuario.schema";
 import { createUserService } from "../services/usuario/createUsuario.service";
 import { Usuario } from "../entities/usuario.entities";
+import { deletarUsuarioService } from "../services/usuario/deltarUsuario.service";
 
 export const createUserController = async (req:Request,res:Response):Promise<Response> => {
     const userData = req.body
     const user:returnUser = await createUserService(userData)
     return  res.status(201).json(user)
+}
+
+export const deletarUsuarioController = async (req:Request,res:Response):Promise<Response> => {
+    const id  = req.params.id
+    await deletarUsuarioService(parseInt(id))
+    return res.status(200).send("Despesa deletada")
 }
 
 export const retrieveUserController = async (req:Request,res:Response):Promise<Response> => {
