@@ -16,7 +16,9 @@ export const returnUserSchema = createUserSchema.extend({
 
 
 export const updateUserSchema = createUserSchema.partial()
+export const returnUserArraySchema = z.array(returnUserSchema)
 
 export type CreateUser = z.infer<typeof createUserSchema>
 export type returnUser = z.infer<typeof returnUserSchema>
+export type returnAllUser = z.infer<typeof returnUserArraySchema>
 export type iUpdateUser = DeepPartial<typeof createUserSchema>
