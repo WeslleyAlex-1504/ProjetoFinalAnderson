@@ -33,6 +33,7 @@ export const createUserService=async(userData:CreateUser):Promise<returnUser>=>{
     const salt =  bcrypt.genSaltSync(10);
     const hash =  bcrypt.hashSync(userData.password, salt);
     userData.password = hash
+    userData.nome = userData.nome.toLowerCase()
     const createUser = userRepository.create(userData)
     await userRepository.save(createUser)
     const user = returnUserSchema.parse(createUser)

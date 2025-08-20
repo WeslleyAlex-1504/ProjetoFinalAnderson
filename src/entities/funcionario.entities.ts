@@ -8,7 +8,4 @@ export class Funcionario {
 
     @Column()
     nome: string;
-
-    @ManyToOne(() => Usuario, { eager: true })
-    usuario: Usuario;
 }

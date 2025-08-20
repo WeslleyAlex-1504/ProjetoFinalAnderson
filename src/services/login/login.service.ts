@@ -26,7 +26,7 @@ export const loginServices = async(user:loginUser):Promise<any> => {
         throw new AppError("senha ou e-mail incorreto",409)
     }
     const token = jwt.sign({
-        id:findUser.id,email:findUser.email,admin:findUser.admin
+        id:findUser.id,nome:findUser.nome,admin:findUser.admin,ativo:findUser.ativo
     },
     process.env.secret_key!,
 {

@@ -19,7 +19,9 @@ export const validateTokem= async(req:Request,res:Response,next:NextFunction):Pr
         if(decoded){
             req.usuario = {
                 id: decoded.id,
-                name: decoded.name
+                nome: decoded.nome,
+                admin: decoded.admin,
+                ativo: decoded.ativo
             }
         }
     })

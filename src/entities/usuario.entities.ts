@@ -19,4 +19,7 @@ export class Usuario {
 
     @Column({ type: "boolean" })
     admin: boolean
+
+    @Column({ type: "boolean" })
+    ativo: boolean
 }

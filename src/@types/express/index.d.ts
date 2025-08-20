@@ -4,8 +4,9 @@ declare global {
     export interface Request {
       usuario: {
         id: number;
-        name: string;
-        
+        nome: string;
+        admin: boolean;
+        ativo: boolean
       };
       
       

@@ -7,7 +7,8 @@ export const createUserSchema = z.object({
     email: z.string().email(),
     password: z.string(),
     telefone: z.string().min(11, "Número incorreto").max(11),
-    admin: z.boolean().default(false)
+    admin: z.boolean().default(false),
+    ativo: z.boolean().default(true)
 })
 
 export const returnUserSchema = createUserSchema.extend({

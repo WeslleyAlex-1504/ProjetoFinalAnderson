@@ -3,20 +3,32 @@ import { Like, Repository } from "typeorm"
 import { Usuario } from '../../entities/usuario.entities';
 import { returnUserArraySchema } from '../../schemas/usuario.schema';
 
-export const pegarTodosClientesServices = async (name?: string,telefone2?: string) => {
+export const pegarTodosClientesServices = async (name?: string,telefone2?: string,ativo?:boolean,limite?:number,offset?:number) => {
   const usuarioRepository: Repository<Usuario> = AppDataSource.getRepository(Usuario);
 
   const where: any = {};
 
   if (name) {
-    where.nome = Like(`${name}%`);
+    where.nome = Like(`${name.toLowerCase()}%`);
   }
 
   if (telefone2) {
     where.telefone = Like(`${telefone2}%`);
   }
 
-const options: any = { where };
+  if (ativo !== undefined) {
+    where.ativo = ativo
+  }
+
+  const options: any = { where };
+
+  if (limite) {
+    options.take = limite
+  }
+
+  if (offset) {
+    options.skip = offset
+  }
 
   const usuario = await usuarioRepository.find(options);
 
