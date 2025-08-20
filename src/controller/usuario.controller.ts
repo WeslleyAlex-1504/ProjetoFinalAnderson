@@ -22,7 +22,7 @@ export const createUserController = async (req:Request,res:Response):Promise<Res
 export const deletarUsuarioController = async (req:Request,res:Response):Promise<Response> => {
     const id  = req.params.id
     await deletarUsuarioService(parseInt(id))
-    return res.status(200).send("Despesa deletada")
+    return res.status(200).send("Usuario deletado")
 }
 
 export const getAllUsuarioControll = async (req:Request,res:Response):Promise<Response> => {

@@ -18,6 +18,9 @@ export const atualizarClienteService=async(userData:iUpdateUser, id: number):Pro
     }
 
     const attCliente = userRepository.create({...findUser,...userData})
+    if (attCliente.nome) {
+    attCliente.nome = attCliente.nome.toLowerCase()
+    }
     await userRepository.save(attCliente)
     return attCliente
 

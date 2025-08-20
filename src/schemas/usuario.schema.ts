@@ -16,7 +16,7 @@ export const returnUserSchema = createUserSchema.extend({
 }).omit({password:true})
 
 
-export const updateUserSchema = createUserSchema.partial()
+export const updateUserSchema = createUserSchema.partial().omit({password:true})
 export const returnUserArraySchema = z.array(returnUserSchema)
 
 export type CreateUser = z.infer<typeof createUserSchema>

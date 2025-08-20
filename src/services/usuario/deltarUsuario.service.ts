@@ -13,7 +13,7 @@ export const deletarUsuarioService = async (id:number) => {
          })
 
     if (!FindUsuario){
-        throw new AppError("Despesa não encontrada", 400);
+        throw new AppError("Cliente não encontrada", 400);
     }     
 
     await usuarioRepository.remove(FindUsuario)
