@@ -4,8 +4,8 @@ import z from "zod";
 
 export const createDDSemanaSchema = z.object({
     nome: z.string().min(5,"nome é obrigatório"),
-    horaInicial: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Hora inválida"),
-    horaFinal: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, "Hora inválida")
+    horaInicial: z.string().regex(/^([0-1]?\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/, "Hora inválida"),
+    horaFinal: z.string().regex(/^([0-1]?\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/, "Hora inválida")
 })
 
 export const returnDDSemanaSchema = createDDSemanaSchema.extend({
