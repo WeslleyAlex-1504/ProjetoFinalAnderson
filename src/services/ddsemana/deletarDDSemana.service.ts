@@ -4,24 +4,20 @@ import { AppDataSource } from "../../data-source"
 import { AppError } from "../../error"
 import { DdSemana } from "../../entities/ddsemana.entities"
 
-export const createDDSemanaService=async(userData:CreateDDSemana):Promise<returnDDSemana>=>{
+export const deletarDDsemanaService=async(id:number)=>{
     const DdSemanaRepository: Repository<DdSemana> = AppDataSource.getRepository(DdSemana)
     
     const findDDSemana: DdSemana | null = await DdSemanaRepository.findOne({
         where:{
-            nome:userData.nome.toLowerCase()
+            id:id
         },
         
     })
 
-    if(findDDSemana){
-        throw new AppError("Dia da semana já existe",409)
+    if(!findDDSemana){
+        throw new AppError("Dia da semana não encontrado",409)
     }
 
-    userData.nome = userData.nome.toLowerCase()
-    const createFuncionario = DdSemanaRepository.create(userData)
-    await DdSemanaRepository.save(createFuncionario)
-    const DdSemana2 = returnDDSemanaSchema.parse(createFuncionario)
-    return DdSemana2
+    await DdSemanaRepository.remove(findDDSemana)
 
 }
