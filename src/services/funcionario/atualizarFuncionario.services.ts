@@ -4,7 +4,7 @@ import { AppDataSource } from "../../data-source"
 import { Funcionario } from "../../entities/funcionario.entities"
 import { AppError } from "../../error"
 
-export const atualizarFuncionarioService=async(id:number,userData:iUpdateFuncionario):Promise<returnFuncionario>=>{
+export const atualizarFuncionarioService=async(id:number,funcionarioData:iUpdateFuncionario):Promise<returnFuncionario>=>{
     const funcionarioRepository: Repository<Funcionario> = AppDataSource.getRepository(Funcionario)
     
     const findFuncionario: Funcionario | null = await funcionarioRepository.findOne({
@@ -18,7 +18,7 @@ export const atualizarFuncionarioService=async(id:number,userData:iUpdateFuncion
         throw new AppError("Funcionario não encontrado",409)
     }
 
-    const attFuncionario = funcionarioRepository.create({...findFuncionario,...userData})
+    const attFuncionario = funcionarioRepository.create({...findFuncionario,...funcionarioData})
     if (attFuncionario.nome) {
     attFuncionario.nome = attFuncionario.nome.toLowerCase()
     }

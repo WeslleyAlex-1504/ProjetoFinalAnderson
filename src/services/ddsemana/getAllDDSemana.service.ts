@@ -1,7 +1,6 @@
 import { Repository } from "typeorm"
-import { CreateDDSemana, returnDDSemana, returnDDSemanaArraySchema, returnDDSemanaSchema } from "../../schemas/ddsemana.schema"
+import { returnDDSemanaArraySchema } from "../../schemas/ddsemana.schema"
 import { AppDataSource } from "../../data-source"
-import { AppError } from "../../error"
 import { DdSemana } from "../../entities/ddsemana.entities"
 
 export const pegarTodosDDSemanaServices=async()=>{
