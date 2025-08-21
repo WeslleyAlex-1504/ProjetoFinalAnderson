@@ -8,4 +8,7 @@ export class Funcionario {
 
     @Column()
     nome: string;
+
+    @Column({ type: "boolean" })
+    ativo: boolean
 }

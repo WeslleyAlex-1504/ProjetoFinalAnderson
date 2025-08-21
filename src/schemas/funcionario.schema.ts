@@ -3,6 +3,7 @@ import z from "zod";
 
 export const createFuncionarioSchema = z.object({
   nome: z.string().min(2, "nome é obrigatório"),
+  ativo: z.boolean().default(true)
 });
 
 export const returnFuncionarioSchema = createFuncionarioSchema.extend({

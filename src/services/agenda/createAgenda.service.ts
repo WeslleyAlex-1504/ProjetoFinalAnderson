@@ -55,6 +55,16 @@ export const createAgendaService=async(userData:CreateAgenda):Promise<returnAgen
         throw new AppError("Agendamento neste dia e hora já existe",409)
     }
 
+    const userAgendaCount = await AgendaRepository.count({
+    where: {
+        usuario: { id: userData.usuario }
+    }
+});
+
+if (userAgendaCount >= 3) {
+    throw new AppError("Usuário já possui 3 agendamentos, Cancele seu agendamento caso queira este horario", 400);
+}
+
     
 const createAgenda = AgendaRepository.create({
     hora: userData.hora,
