@@ -3,6 +3,7 @@ import { query, Request, Response } from "express";
 import { returnAgenda } from "../schemas/agenda.schema";
 import { createAgendaService } from "../services/agenda/createAgenda.service";
 import { pegarTodosAgendaServices } from '../services/agenda/pegarTodosAgendamentos.service';
+import { deletarAgendaService } from '../services/agenda/deletarAgendamento.service';
 
 export const createAgendaController = async (req: Request, res: Response): Promise<Response> => {
     const body = req.body
@@ -23,4 +24,10 @@ export const getAllAgendaController = async (req: Request, res: Response): Promi
 
     const agenda = await pegarTodosAgendaServices(hora,diaMes,mes,ano,ddsemana,usuario,funcionario,limite,offset)
     return res.status(200).json(agenda)
+}
+
+export const deletarAgendaController = async (req: Request, res: Response): Promise<Response> => {
+    const id = req.params.id
+    await deletarAgendaService(parseInt(id))
+    return res.status(200).send("Agendamento deletado")
 }
