@@ -8,13 +8,13 @@ import { atualizarDDSemanaService } from "../services/ddsemana/atualizarDDSemana
 
 export const createDDSemanaController = async (req:Request,res:Response):Promise<Response> => {
     const body = req.body
-    const user:returnDDSemana = await createDDSemanaService(body)
-    return  res.status(201).json(user)
+    const ddsemana:returnDDSemana = await createDDSemanaService(body)
+    return  res.status(201).json(ddsemana)
 }
 
 export const getAllDDSemanaController = async (req:Request,res:Response):Promise<Response> => {
-    const usuarios = await pegarTodosDDSemanaServices()
-    return res.status(200).json(usuarios)
+    const ddsemana = await pegarTodosDDSemanaServices()
+    return res.status(200).json(ddsemana)
 }
 
 export const deletarDDSemanaController = async (req:Request,res:Response):Promise<Response> => {
@@ -26,6 +26,6 @@ export const deletarDDSemanaController = async (req:Request,res:Response):Promis
 export const atualizarDDSemanaController = async (req:Request,res:Response):Promise<Response> => {
     const body = req.body
     const id = req.params.id
-    const usuarios = await atualizarDDSemanaService(parseInt(id),body)
-    return res.status(200).json(usuarios)
+    const ddsemana = await atualizarDDSemanaService(parseInt(id),body)
+    return res.status(200).json(ddsemana)
 }

@@ -33,16 +33,20 @@ export const createAgendaService=async(userData:CreateAgenda):Promise<returnAgen
         }     
     })
 
-    if(findUser || findDDSemana || findFuncionario){
+    if(!findUser || !findDDSemana || !findFuncionario){
         throw new AppError("Não foi possivel concluir a criação do agendamento",400)
     }
+
     
     const findAgenda: Agenda | null = await AgendaRepository.findOne({
         where:{
             hora:userData.hora,
             diaMes:userData.diaMes,
-            mes:userData.mes,
-            ano:userData.ano
+            mes:userData.mes.toLowerCase(),
+            ano:userData.ano,
+            usuario: { id: userData.usuario },
+            funcionario: { id: userData.funcionario },
+            ddsemana: { id: userData.ddsemana }
         },
         
     })

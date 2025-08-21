@@ -8,8 +8,8 @@ import { query, Request, Response } from "express";
 
 export const createFuncionarioController = async (req:Request,res:Response):Promise<Response> => {
     const body = req.body
-    const user:returnFuncionario = await createFuncionarioService(body)
-    return  res.status(201).json(user)
+    const funcionario:returnFuncionario = await createFuncionarioService(body)
+    return  res.status(201).json(funcionario)
 }
 
 export const deletarFuncionarioController = async (req:Request,res:Response):Promise<Response> => {
@@ -22,13 +22,13 @@ export const getAllFuncionarioController = async (req:Request,res:Response):Prom
     const nome = req.query.nome as string
     const limite = Number(req.query.limite) 
     const offset = Number(req.query.offset) 
-    const usuarios = await pegarTodosFuncionariosServices(nome,limite,offset)
-    return res.status(200).json(usuarios)
+    const funcionario = await pegarTodosFuncionariosServices(nome,limite,offset)
+    return res.status(200).json(funcionario)
 }
 
 export const atualizarFuncionarioController = async (req:Request,res:Response):Promise<Response> => {
     const body = req.body
     const id = req.params.id
-    const usuarios = await atualizarFuncionarioService(parseInt(id),body)
-    return res.status(200).json(usuarios)
+    const funcionario = await atualizarFuncionarioService(parseInt(id),body)
+    return res.status(200).json(funcionario)
 }
