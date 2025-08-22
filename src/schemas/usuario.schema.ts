@@ -1,5 +1,6 @@
 import { DeepPartial } from "typeorm";
 import z from "zod";
+import fs from "fs";
 
 
 export const createUserSchema = z.object({
@@ -8,7 +9,10 @@ export const createUserSchema = z.object({
     password: z.string(),
     telefone: z.string().min(11, "Número incorreto").max(11),
     admin: z.boolean().default(false),
-    ativo: z.boolean().default(true)
+    ativo: z.boolean().default(true),
+    imagem: z.string().default(() => {
+        return fs.readFileSync("assets/default.png").toString("base64")
+    })
 })
 
 export const returnUserSchema = createUserSchema.extend({

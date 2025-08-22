@@ -5,6 +5,7 @@ import { Usuario } from "../entities/usuario.entities";
 import { deletarUsuarioService } from "../services/usuario/deltarUsuario.service";
 import { pegarTodosClientesServices } from "../services/usuario/pegarTodosClientes.services";
 import { atualizarClienteService } from "../services/usuario/atualizarUsuario.service";
+import fs from "fs";
 
 function parseBool(value: any): boolean | undefined {
   if (typeof value !== "string") return undefined
@@ -15,6 +16,10 @@ function parseBool(value: any): boolean | undefined {
 
 export const createUserController = async (req:Request,res:Response):Promise<Response> => {
     const userData = req.body
+    if (req.file) {
+    userData.imagem = fs.readFileSync(req.file.path).toString("base64");
+    fs.unlinkSync(req.file.path);
+  }
     const user:returnUser = await createUserService(userData)
     return  res.status(201).json(user)
 }

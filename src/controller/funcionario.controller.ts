@@ -4,10 +4,15 @@ import { deletarFuncionarioService } from '../services/funcionario/deletarFuncio
 import { pegarTodosFuncionariosServices } from '../services/funcionario/pegarTodosFuncionarios.services';
 import { createFuncionarioSchema, returnFuncionario } from '../schemas/funcionario.schema';
 import { query, Request, Response } from "express";
+import fs from "fs";
 
 
 export const createFuncionarioController = async (req:Request,res:Response):Promise<Response> => {
     const body = req.body
+    if (req.file) {
+    body.imagem = fs.readFileSync(req.file.path).toString("base64");
+    fs.unlinkSync(req.file.path);
+  }
     const funcionario:returnFuncionario = await createFuncionarioService(body)
     return  res.status(201).json(funcionario)
 }

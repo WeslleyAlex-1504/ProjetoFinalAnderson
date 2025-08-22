@@ -1,9 +1,13 @@
 import { DeepPartial } from "typeorm";
 import z from "zod";
+import fs from "fs";
 
 export const createFuncionarioSchema = z.object({
   nome: z.string().min(2, "nome é obrigatório"),
-  ativo: z.boolean().default(true)
+  ativo: z.boolean().default(true),
+  imagem: z.string().default(() => {
+    return fs.readFileSync("assets/default.png").toString("base64")
+  })
 });
 
 export const returnFuncionarioSchema = createFuncionarioSchema.extend({

@@ -9,6 +9,9 @@ export class Funcionario {
     @Column()
     nome: string;
 
+    @Column()
+    imagem: string;
+
     @Column({ type: "boolean" })
     ativo: boolean
 }
