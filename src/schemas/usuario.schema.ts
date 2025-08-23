@@ -11,7 +11,7 @@ export const createUserSchema = z.object({
     admin: z.boolean().default(false),
     ativo: z.boolean().default(true),
     imagem: z.string().optional().default(() => {
-    return fs.readFileSync("assets/default.png").toString("base64")
+        return fs.readFileSync("assets/default.png").toString("base64")
     })
 })
 
@@ -26,4 +26,4 @@ export const returnUserArraySchema = z.array(returnUserSchema)
 export type CreateUser = z.infer<typeof createUserSchema>
 export type returnUser = z.infer<typeof returnUserSchema>
 export type returnAllUser = z.infer<typeof returnUserArraySchema>
-export type iUpdateUser = DeepPartial<CreateUser>
+export type iUpdateUser = DeepPartial<typeof createUserSchema>
