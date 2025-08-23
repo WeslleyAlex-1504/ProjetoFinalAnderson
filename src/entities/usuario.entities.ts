@@ -23,6 +23,6 @@ export class Usuario {
     @Column({ type: "boolean" })
     ativo: boolean
 
-    @Column()
+    @Column({ type: "text", nullable: true })
     imagem: string;
 }
