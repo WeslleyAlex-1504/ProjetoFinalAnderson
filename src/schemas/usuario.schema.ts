@@ -10,7 +10,7 @@ export const createUserSchema = z.object({
     telefone: z.string().min(11, "Número incorreto").max(11),
     admin: z.boolean().default(false),
     ativo: z.boolean().default(true),
-    imagem: z.string().optional().default(() => {
+    imagem: z.string().default(() => {
         return fs.readFileSync("assets/default.png").toString("base64")
     })
 })
