@@ -26,18 +26,11 @@ export const pegarTodosAgendaServices=async(hora?:string,diaMes?:string,mes?:str
             where.ddsemana = {id: findDDSemana.id}
         }
     }
-    if(funcionario){
-        const findFuncionario: Funcionario | null = await funcionarioRepository.findOne({
-            where:{
-                nome:funcionario
-            },
-            
-        })
+    
+        if (funcionario) {
+                where.funcionario = { id: parseInt(funcionario, 10) };
+            }
 
-        if(findFuncionario){
-            where.funcionario = {id: findFuncionario.id}
-        }
-    }
 
     if(usuario){
         const findUser: Usuario | null = await userRepository.findOne({
@@ -54,7 +47,7 @@ export const pegarTodosAgendaServices=async(hora?:string,diaMes?:string,mes?:str
 
     
       if (mes) {
-        where.mes = Like(`${mes.toLowerCase()}%`);
+        where.mes = mes.toLowerCase();
       }
     
       if (hora) {
