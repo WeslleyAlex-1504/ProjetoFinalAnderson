@@ -9,5 +9,5 @@ const upload = multer({ dest: "uploads/" });
 
 funcionarioRoutes.post("",upload.single("imagem"), validateDataMiddleware(createFuncionarioSchema), createFuncionarioController)
 funcionarioRoutes.get("", getAllFuncionarioController)
-funcionarioRoutes.patch("/:id", validateDataMiddleware(updateFuncionarioSchema), atualizarFuncionarioController)
+funcionarioRoutes.patch("/:id", upload.single("imagem"),validateDataMiddleware(updateFuncionarioSchema), atualizarFuncionarioController)
 funcionarioRoutes.delete("/:id", deletarFuncionarioController)

@@ -4,13 +4,17 @@ import { AppDataSource } from "../../data-source"
 import { Funcionario } from "../../entities/funcionario.entities"
 import { AppError } from "../../error"
 
-export const pegarTodosFuncionariosServices=async(nome?:string,limite?:number,offset?:number) =>{
+export const pegarTodosFuncionariosServices=async(nome?:string,ativo?:boolean,limite?:number,offset?:number) =>{
     const funcionarioRepository: Repository<Funcionario> = AppDataSource.getRepository(Funcionario)
     
   const where: any = {};
 
   if (nome) {
     where.nome = Like(`${nome.toLowerCase()}%`);
+  }
+
+  if (ativo !== undefined) {
+    where.ativo = ativo
   }
 
   const options: any = { where };

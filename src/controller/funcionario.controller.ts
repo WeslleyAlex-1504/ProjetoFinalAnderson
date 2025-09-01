@@ -6,13 +6,20 @@ import { createFuncionarioSchema, returnFuncionario } from '../schemas/funcionar
 import { query, Request, Response } from "express";
 import fs from "fs";
 
+function parseBool(value: any): boolean | undefined {
+  if (typeof value !== "string") return undefined
+  if (value.toLowerCase() === "true") return true
+  if (value.toLowerCase() === "false") return false
+  return undefined
+}
+
 
 export const createFuncionarioController = async (req:Request,res:Response):Promise<Response> => {
     const body = req.body
     if (req.file) {
-    body.imagem = fs.readFileSync(req.file.path).toString("base64");
-    fs.unlinkSync(req.file.path);
-  }
+        body.imagem = fs.readFileSync(req.file.path).toString("base64");
+        fs.unlinkSync(req.file.path);
+    }
     const funcionario:returnFuncionario = await createFuncionarioService(body)
     return  res.status(201).json(funcionario)
 }
@@ -25,14 +32,19 @@ export const deletarFuncionarioController = async (req:Request,res:Response):Pro
 
 export const getAllFuncionarioController = async (req:Request,res:Response):Promise<Response> => {
     const nome = req.query.nome as string
+    const ativo = parseBool(req.query.ativo)
     const limite = Number(req.query.limite) 
     const offset = Number(req.query.offset) 
-    const funcionario = await pegarTodosFuncionariosServices(nome,limite,offset)
+    const funcionario = await pegarTodosFuncionariosServices(nome,ativo,limite,offset)
     return res.status(200).json(funcionario)
 }
 
 export const atualizarFuncionarioController = async (req:Request,res:Response):Promise<Response> => {
     const body = req.body
+    if (req.file) {
+        body.imagem = fs.readFileSync(req.file.path).toString("base64");
+        fs.unlinkSync(req.file.path);
+    }
     const id = req.params.id
     const funcionario = await atualizarFuncionarioService(parseInt(id),body)
     return res.status(200).json(funcionario)
