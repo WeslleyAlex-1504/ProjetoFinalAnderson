@@ -8,7 +8,8 @@ export const createAgendaSchema = z.object({
     ano: z.string().min(4, "Ano obrigatório"),
     usuario: z.number(),
     funcionario: z.number(),
-    ddsemana: z.number()
+    ddsemana: z.number(),
+    ativo: z.boolean().default(false)
 })
 
 export const returnAgendaSchema = createAgendaSchema.extend({

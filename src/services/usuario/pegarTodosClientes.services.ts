@@ -1,15 +1,19 @@
 import { AppDataSource } from '../../data-source';
-import { Like, Repository } from "typeorm"
+import { ILike, Like, Repository } from "typeorm"
 import { Usuario } from '../../entities/usuario.entities';
 import { returnUserArraySchema } from '../../schemas/usuario.schema';
 
-export const pegarTodosClientesServices = async (name?: string,telefone2?: string,ativo?:boolean,limite?:number,offset?:number) => {
+export const pegarTodosClientesServices = async (name?: string,email?:string,telefone2?: string,ativo?:boolean,limite?:number,offset?:number) => {
   const usuarioRepository: Repository<Usuario> = AppDataSource.getRepository(Usuario);
 
   const where: any = {};
 
   if (name) {
     where.nome = Like(`${name.toLowerCase()}%`);
+  }
+
+  if (email) {
+    where.email = ILike(`${email}%`);
   }
 
   if (telefone2) {

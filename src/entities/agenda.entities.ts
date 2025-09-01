@@ -28,4 +28,7 @@ export class Agenda {
 
     @ManyToOne(() => DdSemana, { eager: true })
     ddsemana: DdSemana
+
+    @Column({ type: "boolean" })
+    ativo: boolean
 }

@@ -73,7 +73,8 @@ const createAgenda = AgendaRepository.create({
     ano: userData.ano,
     usuario: { id: userData.usuario },
     funcionario: { id: userData.funcionario },
-    ddsemana: { id: userData.ddsemana }
+    ddsemana: { id: userData.ddsemana },
+    ativo: userData.ativo
 });
 
 

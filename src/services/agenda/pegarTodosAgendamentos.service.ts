@@ -1,5 +1,5 @@
 import { Usuario } from './../../entities/usuario.entities';
-import { Like, Repository } from "typeorm"
+import { ILike, In, Like, Repository } from "typeorm"
 import { AppDataSource } from "../../data-source"
 import { DdSemana } from "../../entities/ddsemana.entities"
 import { Agenda } from "../../entities/agenda.entities"
@@ -7,7 +7,7 @@ import { Funcionario } from "../../entities/funcionario.entities"
 import { returnAgendaArraySchema } from '../../schemas/agenda.schema';
 
 
-export const pegarTodosAgendaServices=async(hora?:string,diaMes?:string,mes?:string,ano?:string,ddsemana?:string,usuario?:string,funcionario?:string,limite?:number,offset?:number)=>{
+export const pegarTodosAgendaServices=async(hora?:string,ativo?:boolean,diaMes?:string,mes?:string,ano?:string,ddsemana?:string,usuario?:string,funcionario?:string,limite?:number,offset?:number)=>{
     const AgendaRepository: Repository<Agenda> = AppDataSource.getRepository(Agenda)
     const DdSemanaRepository: Repository<DdSemana> = AppDataSource.getRepository(DdSemana)
     const funcionarioRepository: Repository<Funcionario> = AppDataSource.getRepository(Funcionario)
@@ -28,26 +28,39 @@ export const pegarTodosAgendaServices=async(hora?:string,diaMes?:string,mes?:str
     }
     
         if (funcionario) {
-                where.funcionario = { id: parseInt(funcionario, 10) };
+            const funcionarios = await funcionarioRepository.find({
+                where: { nome: ILike(`${funcionario}%`) }
+            });
+
+            if (funcionarios.length > 0) {
+                where.funcionario = { id: In(funcionarios.map(f => f.id)) };
+            } else {
+                return [];
             }
-
-
-    if(usuario){
-        const findUser: Usuario | null = await userRepository.findOne({
-            where:{
-                nome: usuario
-            }     
-        })
-
-        if(findUser){
-            where.usuario = {id: findUser.id}
         }
-    }
+
+
+
+        if (usuario) {
+            const users = await userRepository.find({
+                where: { nome: ILike(`${usuario}%`) }
+            });
+
+            if (users.length > 0) {
+                where.usuario = { id: In(users.map(u => u.id)) };
+            } else {
+                return [];
+            }
+        }
 
 
     
       if (mes) {
         where.mes = mes.toLowerCase();
+      }
+
+      if (ativo) {
+        where.ativo = ativo;
       }
     
       if (hora) {

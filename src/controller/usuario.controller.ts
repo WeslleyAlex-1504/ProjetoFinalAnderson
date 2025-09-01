@@ -33,10 +33,11 @@ export const deletarUsuarioController = async (req:Request,res:Response):Promise
 export const getAllUsuarioControll = async (req:Request,res:Response):Promise<Response> => {
     const nome = req.query.nome as string
     const tele = req.query.tele as string
+    const email = req.query.email as string
     const ativo = parseBool(req.query.ativo)
     const limite = Number(req.query.limite)
     const offset = Number(req.query.offset)
-    const usuarios = await pegarTodosClientesServices(nome,tele,ativo,limite,offset)
+    const usuarios = await pegarTodosClientesServices(nome,email,tele,ativo,limite,offset)
     return res.status(200).json(usuarios)
 }
 
