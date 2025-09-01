@@ -44,6 +44,10 @@ export const getAllUsuarioControll = async (req:Request,res:Response):Promise<Re
 export const atualizarUsuarioController = async (req:Request,res:Response):Promise<Response> => {
     const body = req.body
     const id = req.params.id
+    if (req.file) {
+        body.imagem = fs.readFileSync(req.file.path).toString("base64")
+        fs.unlinkSync(req.file.path)
+    }
     const usuarios = await atualizarClienteService(body,parseInt(id))
     return res.status(200).json(usuarios)
 }
