@@ -13,8 +13,10 @@ export const validateTokem= async(req:Request,res:Response,next:NextFunction):Pr
     token = token.split(" ")[1]
     console.log(token,"token")
     jwt.verify(token,process.env.secret_key!,async(error,decoded:any) => {
+        console.log(error,"error")
         if(error){
-            throw new AppError(error.message,401)
+            // throw new AppError(error.message,401)
+            return res.status(401).json(error?.message)
         }
         if(decoded){
             req.usuario = {
@@ -25,6 +27,6 @@ export const validateTokem= async(req:Request,res:Response,next:NextFunction):Pr
             }
         }
     })
-
     next()
+
 }
