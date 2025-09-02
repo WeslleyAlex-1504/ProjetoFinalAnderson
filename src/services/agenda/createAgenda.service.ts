@@ -57,7 +57,7 @@ export const createAgendaService=async(userData:CreateAgenda):Promise<returnAgen
 
     const userAgendaCount = await AgendaRepository.count({
     where: {
-        usuario: { id: userData.usuario }
+        usuario: { id: userData.usuario, ativo: false }
     }
 });
 

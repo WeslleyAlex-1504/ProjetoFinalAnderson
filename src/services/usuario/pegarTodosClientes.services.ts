@@ -3,7 +3,7 @@ import { ILike, Like, Repository } from "typeorm"
 import { Usuario } from '../../entities/usuario.entities';
 import { returnUserArraySchema } from '../../schemas/usuario.schema';
 
-export const pegarTodosClientesServices = async (name?: string,email?:string,telefone2?: string,ativo?:boolean,limite?:number,offset?:number) => {
+export const pegarTodosClientesServices = async (name?: string,id?:number,email?:string,telefone2?: string,ativo?:boolean,limite?:number,offset?:number) => {
   const usuarioRepository: Repository<Usuario> = AppDataSource.getRepository(Usuario);
 
   const where: any = {};
@@ -16,8 +16,12 @@ export const pegarTodosClientesServices = async (name?: string,email?:string,tel
     where.email = ILike(`${email}%`);
   }
 
+  if (id) {
+    where.id = id;
+  }
+
   if (telefone2) {
-    where.telefone = Like(`${telefone2}%`);
+    where.telefone = Like(`%${telefone2}%`);
   }
 
   if (ativo !== undefined) {

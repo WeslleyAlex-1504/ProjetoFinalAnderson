@@ -7,7 +7,7 @@ import { Funcionario } from "../../entities/funcionario.entities"
 import { returnAgendaArraySchema } from '../../schemas/agenda.schema';
 
 
-export const pegarTodosAgendaServices=async(hora?:string,diaMes?:string,mes?:string,ano?:string,ddsemana?:string,usuario?:string,funcionario?:string,limite?:number,offset?:number)=>{
+export const pegarTodosAgendaServices=async(hora?:string,ativo?:boolean,diaMes?:string,mes?:string,ano?:string,ddsemana?:string,usuario?:number,funcionario?:string,limite?:number,offset?:number)=>{
     const AgendaRepository: Repository<Agenda> = AppDataSource.getRepository(Agenda)
     const DdSemanaRepository: Repository<DdSemana> = AppDataSource.getRepository(DdSemana)
     const funcionarioRepository: Repository<Funcionario> = AppDataSource.getRepository(Funcionario)
@@ -39,22 +39,23 @@ export const pegarTodosAgendaServices=async(hora?:string,diaMes?:string,mes?:str
         }
     }
 
-    if(usuario){
-        const findUser: Usuario | null = await userRepository.findOne({
-            where:{
-                nome: usuario
-            }     
-        })
-
-        if(findUser){
-            where.usuario = {id: findUser.id}
+        if(usuario){
+          const findUser: Usuario | null = await userRepository.findOne({
+            where: { id: usuario }
+          });
+          if(findUser){
+            where.usuario = { id: findUser.id };
+          }
         }
-    }
 
 
     
       if (mes) {
         where.mes = Like(`${mes.toLowerCase()}%`);
+      }
+
+      if (ativo !== undefined) {
+        where.ativo = ativo;
       }
     
       if (hora) {
