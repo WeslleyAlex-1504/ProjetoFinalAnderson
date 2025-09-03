@@ -1,5 +1,5 @@
 import { Usuario } from './../../entities/usuario.entities';
-import { Like, Repository } from "typeorm"
+import { ILike, In, Like, Repository } from "typeorm"
 import { AppDataSource } from "../../data-source"
 import { DdSemana } from "../../entities/ddsemana.entities"
 import { Agenda } from "../../entities/agenda.entities"
@@ -7,7 +7,7 @@ import { Funcionario } from "../../entities/funcionario.entities"
 import { returnAgendaArraySchema } from '../../schemas/agenda.schema';
 
 
-export const pegarTodosAgendaServices=async(hora?:string,ativo?:boolean,diaMes?:string,mes?:string,ano?:string,ddsemana?:string,usuario?:number,funcionario?:string,limite?:number,offset?:number)=>{
+export const pegarTodosAgendaServices=async(hora?:string,ativo?:boolean,usuario2?:string,diaMes?:string,mes?:string,ano?:string,ddsemana?:string,usuario?:number,funcionario?:string,limite?:number,offset?:number)=>{
     const AgendaRepository: Repository<Agenda> = AppDataSource.getRepository(Agenda)
     const DdSemanaRepository: Repository<DdSemana> = AppDataSource.getRepository(DdSemana)
     const funcionarioRepository: Repository<Funcionario> = AppDataSource.getRepository(Funcionario)
@@ -26,18 +26,17 @@ export const pegarTodosAgendaServices=async(hora?:string,ativo?:boolean,diaMes?:
             where.ddsemana = {id: findDDSemana.id}
         }
     }
-    if(funcionario){
-        const findFuncionario: Funcionario | null = await funcionarioRepository.findOne({
-            where:{
-                nome:funcionario
-            },
-            
-        })
+        if (funcionario) {
+          const funcionarios = await funcionarioRepository.find({
+            where: { nome: ILike(`${funcionario}%`) }
+          });
 
-        if(findFuncionario){
-            where.funcionario = {id: findFuncionario.id}
+          if (funcionarios.length > 0) {
+            where.funcionario = { id: funcionarios[0].id }; 
+          } else {
+            return []; 
+          }
         }
-    }
 
         if(usuario){
           const findUser: Usuario | null = await userRepository.findOne({
@@ -45,6 +44,20 @@ export const pegarTodosAgendaServices=async(hora?:string,ativo?:boolean,diaMes?:
           });
           if(findUser){
             where.usuario = { id: findUser.id };
+          }
+        }
+
+
+        if (usuario2) {
+          const usuarios = await userRepository.find({
+            where: { nome: ILike(`${usuario2}%`) }
+          });
+
+          if (usuarios.length > 0) {
+            const ids = usuarios.map(u => u.id);
+            where.usuario = { id: In(ids) }; 
+          } else {
+            return [];
           }
         }
 

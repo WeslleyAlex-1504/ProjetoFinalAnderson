@@ -26,11 +26,12 @@ export const getAllAgendaController = async (req: Request, res: Response): Promi
     const ano = req.query.ano as string;
     const usuario = Number(req.query.usuario);
     const funcionario = req.query.funcionario as string;
+    const usuarios2 = req.query.usuario2 as string;
     const ddsemana = req.query.ddsemana as string;
     const limite = Number(req.query.limite);
     const offset = Number(req.query.offset);
 
-    const agenda = await pegarTodosAgendaServices(hora,ativo,diaMes,mes,ano,ddsemana,usuario,funcionario,limite,offset)
+    const agenda = await pegarTodosAgendaServices(hora,ativo,usuarios2,diaMes,mes,ano,ddsemana,usuario,funcionario,limite,offset)
     return res.status(200).json(agenda)
 }
 

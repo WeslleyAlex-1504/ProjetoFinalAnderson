@@ -28,7 +28,7 @@ export const pegarTodosClientesServices = async (name?: string,id?:number,email?
     where.ativo = ativo
   }
 
-  const options: any = { where };
+  const options: any = { where, order: { id: "DESC" } };
 
   if (limite) {
     options.take = limite
