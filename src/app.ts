@@ -8,6 +8,13 @@ import { loginRoutes } from './routes/login.routes'
 import { funcionarioRoutes } from './routes/funcionario.routes'
 import { DDSemanaRoutes } from './routes/ddsemana.routes'
 import { agendaRoutes } from './routes/agenda.routes'
+import { atualizarCortesParaConcluidos } from "./services/agenda/deletarAutomatico";
+
+const INTERVALO = 3600 * 1000;
+
+setInterval(() => {
+  atualizarCortesParaConcluidos().catch(err => console.error("Erro no cron:", err));
+}, INTERVALO);
 
 const app:Application = express()
 

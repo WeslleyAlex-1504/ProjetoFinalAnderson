@@ -37,6 +37,7 @@ export const getAllAgendaController = async (req: Request, res: Response): Promi
 
 export const deletarAgendaController = async (req: Request, res: Response): Promise<Response> => {
     const id = req.params.id
-    await deletarAgendaService(parseInt(id))
+    const isAdmin = parseBool(req.query.isAdmin)
+    await deletarAgendaService(parseInt(id),isAdmin!)
     return res.status(200).send("Agendamento deletado")
 }
